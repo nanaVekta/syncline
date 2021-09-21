@@ -1,3 +1,4 @@
 module.exports = {
-    secret: "syncline-secret-key"
+    secret: "syncline-secret-key",
+    uploadPath: "./public/uploads"
 };
