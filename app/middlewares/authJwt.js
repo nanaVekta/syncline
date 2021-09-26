@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const config = require('../config/db.config');
+const jwt = require("jsonwebtoken");
+const config = require('../config/auth.config');
 const db = require('../models');
 const User = db.user;
 const Role = db.role;
@@ -12,20 +12,21 @@ const Role = db.role;
  * @param {any} next
  * @returns {any}
  */
-verifyToken = (req, res, next) => {
+ verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
+  
     if (!token) {
-        return res.status(403).send({ message: 'No token provided!'});
+      return res.status(403).send({ message: "No token provided!" });
     }
-
+  
     jwt.verify(token, config.secret, (err, decoded) => {
-        if(err) {
-            return res.status(401).send({message: 'Unauthorized'});
-        }
-        req.userId = decoded.id;
-        next();
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized! " });
+      }
+      req.userId = decoded.id;
+      next();
     });
-};
+  };
 
 /**
  * check if user is admin

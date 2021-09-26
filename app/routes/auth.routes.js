@@ -16,12 +16,16 @@ module.exports = function(app){
             verifySignUp.checkDuplicateEmailOrPhone,
             verifySignUp.checkRolesExisted
         ],
-        function(req, res){
-            controller.signup
+        (req, res) => {
+            controller.signup(req, res);
         }
     );
 
-    app.post('/api/auth/signin', function(req, res){
-        controller.signin
-    });
+    app.post(
+        '/api/auth/signin', 
+        [], 
+        (req, res) => {
+            controller.signin(req, res);
+        }
+    );
 };

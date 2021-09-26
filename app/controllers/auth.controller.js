@@ -70,6 +70,13 @@ exports.signup = (req, res) => {
     });
 };
 
+/**
+ * Sign in user
+ * @date 2021-09-22
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 exports.signin = (req, res) => {
     User.findOne({
         email: req.body.email
@@ -94,7 +101,7 @@ exports.signin = (req, res) => {
             });
         }
 
-        let token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 });
+        let token = jwt.sign({ id: user._id }, config.secret, { expiresIn: 86400 });
 
         let authorities = [];
 

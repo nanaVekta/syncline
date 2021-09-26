@@ -3,7 +3,6 @@ const db = require('../models');
 const Book = db.book;
 const multer = require('multer');
 
-let jwt = require('jsonwebtoken');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -35,7 +34,7 @@ exports.create = (req, res) => {
         title: req.body.title,
         description: req.body.description,
         quantity: req.body.quantity,
-        image: req.file.path
+        image: req.file.originalname
     });
 
     book.save((err) => {
@@ -47,3 +46,58 @@ exports.create = (req, res) => {
         res.status(200).send({ message: 'Book created successfully!' });
     });
 };
+
+exports.getAll = (req, res) => {
+    Book.find({}, (err, books) => {
+        if(err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+
+        res.status(200).send({message:'success', books: books});
+    });
+}
+
+exports.getById = (req, res) => {
+    Book.findById(req.params.id, (err, book) => {
+        if(err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+
+        res.status(200).send({message:'success', book: book});
+    });
+}
+
+exports.delete = (req, res) => {
+    Book.findByIdAndRemove(req.params.id, (err, book) => {
+        if(err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+
+        res.status(200).send({message:'success', book: book});
+    });
+}
+
+exports.update = (req, res) => {
+    Book.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, book) => {
+        if(err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+
+        res.status(200).send({message:'success', book: book});
+    });
+}
+
+exports.search = (req, res) => {
+    Book.find({title: {$regex: req.params.title, $options: 'i'}}, (err, books) => {
+        if(err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+
+        res.status(200).send({message:'success', books: books});
+    });
+}

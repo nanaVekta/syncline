@@ -6,10 +6,14 @@ const db = require('./app/models');
 const PORT = process.env.PORT || 8080;
 const Role = db.role;
 const dbConfig = require('./app/config/db.config');
+const path = require('path');
+
 
 let corsOptions = {
   origin: "http://localhost:8081"
 };
+
+app.use(express.static(path.join(__dirname, 'public/uploads')));
 
 app.use(cors(corsOptions));
 
@@ -20,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
-app.get("/", (req, res) => {
+app.post("/app", (req, res) => {
   res.json({ message: "Route works." });
 });
 

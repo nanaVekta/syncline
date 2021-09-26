@@ -24,4 +24,41 @@ module.exports = function(app) {
         controller.uploadImg,
         controller.create
     )
+    app.get(
+        '/api/book',
+        [],
+        (req, res) => {
+            controller.getAll(req, res);
+        }
+    )
+    app.get(
+        '/api/book/:id',
+        [],
+        (req, res) => {
+            controller.getById(req, res);
+        }
+    )
+    app.delete(
+        '/api/book/:id',
+        [authJwt.verifyToken, authJwt.isAdmin],
+        (req, res) => {
+            controller.delete(req, res);
+        }
+    )
+
+    app.put(
+        '/api/book/:id',
+        [authJwt.verifyToken, authJwt.isAdmin],
+        (req, res) => {
+            controller.update(req, res);
+        }
+    )
+
+    app.get(
+        '/api/book/search/:title',
+        [],
+        (req, res) => {
+            controller.search(req, res);
+        }
+    )
 }
