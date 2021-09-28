@@ -32,6 +32,7 @@ app.post("/app", (req, res) => {
 require ('./app/routes/auth.routes')(app);
 require ('./app/routes/user.routes')(app);
 require ('./app/routes/book.routes')(app);
+require ('./app/routes/sale.routes')(app);
 
 // set port, listen for requests
 app.listen(PORT, () => {
